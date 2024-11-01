@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <h2>口コミの新規作成</h2>
-                <form action="{{ route('reviews.create') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('user.reviews.create') }}" method="post" enctype="multipart/form-data">
 
                     @if (count($errors) > 0)
                         <ul>
@@ -25,7 +25,22 @@
                     <div class="form-group row">
                         <label class="col-md-2">評価</label>
                         <div class="col-md-10">
-                            <input type="number" class="form-control" min="1" max="5" step="1" name="evaluation" value="{{ old('evaluation') }}">
+                            <div class="form-rating">
+                                <input class="form-rating__input" id="star5" name="rating" type="radio" value="5">
+                                <label class="form-rating__label" for="star5"><i class="fa-solid fa-star"></i></label>
+                        
+                                <input class="form-rating__input" id="star4" name="rating" type="radio" value="4">
+                                <label class="form-rating__label" for="star4"><i class="fa-solid fa-star"></i></label>
+                        
+                                <input class="form-rating__input" id="star3" name="rating" type="radio" value="3">
+                                <label class="form-rating__label" for="star3"><i class="fa-solid fa-star"></i></label>
+                        
+                                <input class="form-rating__input" id="star2" name="rating" type="radio" value="2">
+                                <label class="form-rating__label" for="star2"><i class="fa-solid fa-star"></i></label>
+                        
+                                <input class="form-rating__input" id="star1" name="rating" type="radio" value="1">
+                                <label class="form-rating__label" for="star1"><i class="fa-solid fa-star"></i></label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">

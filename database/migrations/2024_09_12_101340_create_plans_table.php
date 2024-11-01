@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->string('place');
-            //unsigned→負の数値× default（０）→デフォルトで０に設定　nullable(false)→nullは×
-            $table->unsignedTinyInteger('rating')->default(0)->nullable(false);
-            $table->string('content');
-            $table->string('photo_path')->nullable();
+            $table->string('title');
+            $table->string('date');
+            $table->string('plane');
+            $table->string('hotel');
+            $table->string('restaurant');
+            $table->string('spot');
+            $table->string('memo');
             $table->bigInteger('user_id');
             $table->timestamps();
         });
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('plans');
     }
 };

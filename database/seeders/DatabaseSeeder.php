@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        //ContactTitleTableのファイルを呼び出す
+        $this->call(ContactTitleTableSeeder::class);
     }
 }

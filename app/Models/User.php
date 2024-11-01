@@ -41,4 +41,46 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    /**
+     * リレーション（1対多）
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    //リレーションの設定
+    public function contacts() // 複数形
+    {
+        return $this->hasMany('App\Models\Contact');
+    }
+    
+    //多対多のリレーション
+    public function groups()
+    {
+        //belongsToMany→laravelで１対多を表すメソッド
+        return $this->belongsToMany('App\Models\Group', 'group_users');
+    }
+    
+    //フォローしているユーザー
+    public function following()
+    {
+        return $this->belongsToMany('App\Models\User', 'follows','following', 'followed');
+    }
+
+    //フォローされているユーザー
+    public function followed()
+    {
+        return $this->belongsToMany(User::class, 'follows','followed','following');
+    }
+    
+    // 特定のユーザーにフォローされているか確認
+    public function isFollowedBy(User $user)
+    {
+        return $this->followed()->where('following', $user->id)->exists();
+    }
+    
+    //ユーザーのレビュー
+    public function reviews() // 複数形
+    {
+        return $this->hasMany('App\Models\Review');
+    }
 }

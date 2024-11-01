@@ -6,15 +6,11 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <h2>口コミの一覧</h2>
+            <h2>すべての口コミの一覧</h2>
         </div>
         <div class="row">
-            <div class="col-md-4">
-                {{-- ReviewController.phpのadd Action --}}
-                <a href="{{ route('review.add') }}" role="button" class="btn btn-primary">新規作成</a>
-            </div>
             <div class="col-md-8">
-                <form action="{{ route('review.index') }}" method="get">
+                <form action="{{ route('user.reviews') }}" method="get">
                     <div class="form-group row">
                         <label class="col-md-2">タイトル</label>
                         <div class="col-md-8">
@@ -34,25 +30,33 @@
                     <table class="table table-dark">
                         <thead>
                             <tr>
-                                <th width="10%">ID</th>
-                                <th width="20%">タイトル</th>
-                                <th width="50%">本文</th>
-                                <th width="10%">操作</th>
+                                <th width="5%">ID</th>
+                                <th width="20%">場所</th>
+                                <th width="20%">評価</th>
+                                <th width="40%">内容</th>
+                                <th width="10%">画像</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {{-- すべての口コミをみられる--}}
                             @foreach($reviews as $review)
                                 <tr>
                                     <th>{{ $review->id }}</th>
-                                    <td>{{ Str::limit($review->title, 100) }}</td>
-                                    <td>{{ Str::limit($review->body, 250) }}</td>
+                                    <td>{{ Str::limit($review->place, 100) }}</td>
                                     <td>
-                                        <div>
-                                            <a href="{{ route('review.edit', ['id' => $review->id]) }}">編集</a>
+                                        <div class="form-rating">
+                                        @for($i = 0; $i < $review->rating; $i++)
+                                            <div class="star-yellow"> 
+                                              <i class="fa-solid fa-star"></i>  
+                                            </div>
+                                        @endfor
                                         </div>
-                                        <div>
-                                            <a href="{{ route('review.delete', ['id' => $review->id]) }}">削除</a>
-                                        </div>
+                                    </td>
+                                    <td>{{ Str::limit($review->content, 250) }}</td>
+                                    <td>
+                                        @if ($review->photo_path)
+                                            <img src="{{ secure_asset('storage/image/' . $review->photo_path) }}">
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -63,7 +67,3 @@
         </div>
     </div>
 @endsection
-
-@foreach($reviews as $review)
-{{$review->place}}
-@endforeach
