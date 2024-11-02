@@ -48,24 +48,28 @@ class ReviewController extends Controller
         return redirect('user/review/create');
     }
     
-    //自分だけの口コミの一覧表示
     public function index()
     {
-        //$cond_titleの定義付け
-        $cond_title='';
-        return view('reviews.index',['reviews' => Auth::user()->reviews,'cond_title' => $cond_title]);
+        // 自分だけの口コミの一覧表示
+        $cond_title = '';
+        $user_reviews = Auth::user()->reviews; // ユーザーのレビューを取得
+        return view('user.reviews', ['user_reviews' => $user_reviews, 'cond_title' => $cond_title]);
     }
     
     
-    //口コミを削除する
     public function delete(Request $request)
     {
-        // 該当するPlan Modelを取得
+        // 該当するReview Modelを取得
         $review = Review::find($request->id);
-
+    
+        // レビューが見つからない場合
+        if (!$review) {
+            return redirect('user/reviews')->with('error', 'レビューが見つかりませんでした。');
+        }
+    
         // 削除する
         $review->delete();
-
-        return redirect('user/review');
+    
+        return redirect('user/reviews')->with('success', 'レビューが削除されました。');
     }
 }
