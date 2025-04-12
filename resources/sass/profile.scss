@@ -48,3 +48,16 @@ body {
   border-color: #fff;
   background-color: #000;
 }
+
+.back-to-profile {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.back-to-profile .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+}

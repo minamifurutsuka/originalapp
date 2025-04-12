@@ -17,4 +17,19 @@ class Review extends Model
         'rating' => 'required|integer|min:1|max:5',
         'content' => 'required',
     );
+    
+    public function likes()
+    {
+        return $this->belongsToMany('App\Models\User', 'likes','review_id','user_id');
+    }
+    
+    public function is_liked(User $user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

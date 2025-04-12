@@ -21,9 +21,14 @@ class Group extends Model
     );
     
     //多対多のリレーション
-    public function users(): BelongsToMany
+    public function users()
     {
         //belongsToMany→laravelで１対多を表すメソッド
-        return $this->belongsToMany(User::class, 'group_users');
+        return $this->belongsToMany('App\Models\User', 'group_users');
+    }
+    
+    public function plan()
+    {
+        return $this->hasOne(Plan::class);
     }
 }

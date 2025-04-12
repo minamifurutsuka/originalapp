@@ -24,4 +24,9 @@ class Plan extends Model
     {
         return $this->hasMany('App\Models\History');
     }
+    
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
 }

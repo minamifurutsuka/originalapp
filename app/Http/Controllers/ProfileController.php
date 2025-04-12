@@ -4,21 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\Models\User;//登録ユーザーのDBを使用
+use App\Models\User;
 
 class ProfileController extends Controller
 {
-    //
+    // プロフィール画面を表示
     public function profile()
     {
-        $user = Auth::user();
-        return view('profiles/profile', compact('user'));
+        $user = Auth::user(); // ログイン中のユーザー
+        $likedReviews = $user->likedReviews()->with('user')->get(); // いいねした口コミ
+    
+        // ビューに必要なデータを渡す
+        return view('profiles.profile', compact('user', 'likedReviews'));
     }
     
-    //フォロー情報
-    public function get_user($user_id){
-
-        $user = User::with('following')->with('followed')->findOrFail($user_id);
-        return response()->json($user);
+    // フォロー情報の取得 
+    public function get_user($id)
+    {
+        $user = User::findOrFail($id);
+        return view('profiles.profile',compact('user'));
     }
 }

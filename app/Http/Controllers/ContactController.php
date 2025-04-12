@@ -17,6 +17,7 @@ class ContactController extends Controller
         return view('contact.create', compact('contact_titles'));
     }
    
+   //お問い合わせの作成
     public function create(Request $request)
     {
         // Validationを行う
@@ -34,14 +35,22 @@ class ContactController extends Controller
         $contact->fill($form);
         $contact->save();
         
-        // reviews/createにリダイレクトする
+        // contact/createにリダイレクトする
         return redirect('contact/create');
     }
     
+    //一覧表示
     public function index(Request $request)
     {
         //ログインしているユーザーのcontactプロパティを参照する
         $contacts = Auth::user()->contacts;
         return view('contact.index', compact('contacts'));
+    }
+    
+    //全容を表示する
+    public function show($id)
+    {
+        $contact = Contact::findOrFail($id);
+        return view('contact.show', compact('contact'));
     }
 }

@@ -60,13 +60,13 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Group', 'group_users');
     }
     
-    //フォローしているユーザー
+    //自分がフォローしているユーザー
     public function following()
     {
-        return $this->belongsToMany('App\Models\User', 'follows','following', 'followed');
+        return $this->belongsToMany(User::class, 'follows','following', 'followed');
     }
 
-    //フォローされているユーザー
+    //自分のことをフォローしているユーザー
     public function followed()
     {
         return $this->belongsToMany(User::class, 'follows','followed','following');
@@ -82,5 +82,16 @@ class User extends Authenticatable
     public function reviews() // 複数形
     {
         return $this->hasMany('App\Models\Review');
+    }
+    
+    public function likes()
+    {
+        return $this->belongsToMany('App\Models\Review', 'likes','user_id','review_id');
+    }
+    
+    //ユーザーが「いいね」したレビューを取得するリレーション
+    public function likedReviews()
+    {
+        return $this->belongsToMany('App\Models\Review', 'likes', 'user_id', 'review_id');
     }
 }

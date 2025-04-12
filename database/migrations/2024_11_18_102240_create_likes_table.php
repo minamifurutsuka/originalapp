@@ -13,17 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('date');
-            $table->string('plane');
-            $table->string('hotel');
-            $table->string('restaurant');
-            $table->string('spot');
-            $table->string('memo');
-            $table->bigInteger('user_id');
-            $table->bigInteger('group_id');
+            //2つの外部キーの設定
+            $table->unsignedBigInteger('review_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('review_id')->references('id')->on('reviews')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('likes');
     }
 };

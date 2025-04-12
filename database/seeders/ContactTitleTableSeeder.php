@@ -38,5 +38,10 @@ class ContactTitleTableSeeder extends Seeder
         'id' => 4,
         'title' => '退会方法に関して',
        ]);
+       
+       ContactTitle::create([
+        'id' => 5,
+        'title' => 'その他',
+       ]);
     }
 }

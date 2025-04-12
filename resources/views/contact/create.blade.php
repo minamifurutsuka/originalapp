@@ -37,4 +37,8 @@
             </div>
         </div>
     </div>
+    {{--プロフィールに戻るボタン--}}
+    <div class="back-to-profile">
+        <a href="{{ route('profile') }}" class="btn btn-primary">プロフィールに戻る</a>
+    </div>
 @endsection

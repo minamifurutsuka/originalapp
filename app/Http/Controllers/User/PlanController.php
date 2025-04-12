@@ -38,7 +38,7 @@ class PlanController extends Controller
         $plan->save();
         
         // plan/createにリダイレクトする
-        return redirect('user/plan/create');
+        return redirect('user/plans');
     }
     
     public function index(Request $request)
@@ -52,10 +52,14 @@ class PlanController extends Controller
             $plans = Plan::where('title', 'like', '%' . $cond_title . '%')
                          ->where('user_id', Auth::id()) // ログイン中のユーザーに限定する
                          ->get();
+                         
         } else {
             // それ以外はログインユーザーのすべてのプランを取得
             $plans = Plan::where('user_id', Auth::id())->get();
         }
+        
+        //ユーザーが所属しているグループをとってくる
+        Auth::user()->groups;
         
         // ビューにプランリストと検索条件を渡す
         return view('user.plan.index', [

@@ -32,31 +32,44 @@
                             <tr>
                                 <th width="5%">ID</th>
                                 <th width="20%">場所</th>
-                                <th width="20%">評価</th>
-                                <th width="40%">内容</th>
+                                <th width="10%">評価</th>
+                                <th width="20%">内容</th>
                                 <th width="10%">画像</th>
+                                <th width="30%">いいね</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- すべての口コミをみられる--}}
+                            {{-- すべての口コミを表示 --}}
                             @foreach($reviews as $review)
                                 <tr>
                                     <th>{{ $review->id }}</th>
                                     <td>{{ Str::limit($review->place, 100) }}</td>
                                     <td>
                                         <div class="form-rating">
-                                        @for($i = 0; $i < $review->rating; $i++)
-                                            <div class="star-yellow"> 
-                                              <i class="fa-solid fa-star"></i>  
-                                            </div>
-                                        @endfor
+                                            @for($i = 0; $i < $review->rating; $i++)
+                                                <div class="star-yellow"> 
+                                                    <i class="fa-solid fa-star"></i>  
+                                                </div>
+                                            @endfor
                                         </div>
                                     </td>
                                     <td>{{ Str::limit($review->content, 250) }}</td>
                                     <td>
                                         @if ($review->photo_path)
-                                            <img src="{{ secure_asset('storage/image/' . $review->photo_path) }}">
+                                            <img src="{{ secure_asset('storage/image/' . $review->photo_path) }}" alt="口コミ画像">
                                         @endif
+                                    </td>
+                                    <td>
+                                        {{-- いいねボタン --}}
+                                        <form action="{{ $review->is_liked(Auth::user()) ? route('like.destroy', $review->id) : route('like.store', $review->id) }}" method="POST">
+                                            @csrf
+                                            @if($review->is_liked(Auth::user()))
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">いいね解除</button>
+                                            @else
+                                                <button type="submit" class="btn btn-primary">いいね</button>
+                                            @endif
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -65,5 +78,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    {{--プロフィールに戻るボタン--}}
+    <div class="back-to-profile">
+        <a href="{{ route('profile') }}" class="btn btn-primary">プロフィールに戻る</a>
     </div>
 @endsection

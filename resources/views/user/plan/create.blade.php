@@ -63,6 +63,7 @@
                         </div>
                     </div>
                     @csrf
+                    <input type="hidden" name="group_id" value="{{$group_id}}">
                     <input type="submit" class="btn btn-primary" value="更新">
                 </form>
             </div>

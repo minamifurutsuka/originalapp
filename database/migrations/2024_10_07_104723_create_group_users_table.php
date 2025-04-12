@@ -18,8 +18,10 @@ return new class extends Migration
         Schema::create('group_users', function (Blueprint $table) {
             $table->id();
             //2つの外部キーの設定
-            $table->foreignIdFor(Group::class)->constrained();
-            $table->foreignIdFor(User::class)->constrained();
+            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
